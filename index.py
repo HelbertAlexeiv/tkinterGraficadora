@@ -1,58 +1,53 @@
 import tkinter as tk
 import matplotlib.pyplot as plt
-import numpy as np 
+import numpy as np
+from time import sleep
 
 root = tk.Tk()
 root.resizable(False, False)
+#--------Comands
+fnlist = list()
+def clickAddButton():
+    fnlist.append(funtionEntry.get())
+    fnListLabel.config(text="")
+    funtions = ""
+    
+    for i in fnlist:
+        funtions += "\n*"+i+"\n"
+    fnListLabel.config(text=funtions)
+
+def clickGraphButton():
+    image = tk.PhotoImage(file='seno.png')
+    graphic.create_image(320,240, image=image)
+    x = np.linspace(-10, 10, 300)
+    for i in fnlist:
+        y = eval(i)
+        plt.plot(x, y)
+    plt.savefig('seno.png')
+    plt.show()
+    plt.close(fig='seno.png')
 #--------Funtion Frame
-checkFnConstante = tk.BooleanVar()
-checkFnLineal = tk.BooleanVar()
-checkFnCuadratica = tk.BooleanVar()
-checkFnCubica = tk.BooleanVar()
-checkFnRacional = tk.BooleanVar()
-checkFnExponencial = tk.BooleanVar()
-checkFnLogaritmica = tk.BooleanVar()
-checkFnSeno = tk.BooleanVar()
-checkFnCoseno = tk.BooleanVar()
-checkFnTangente = tk.BooleanVar()
-
 fxFrame = tk.Frame(root)
-titleLabel = tk.Label(fxFrame,text="FUNCIONES", font=("Times New Roman", 13))
+funtionEntry = tk.Entry(fxFrame)
+fnTitleLabel = tk.Label(fxFrame,text="FUNCIONES", font=("Times New Roman", 13))
+fnListLabel = tk.Label(fxFrame)
+addButton = tk.Button(fxFrame,text="Agregar", command=clickAddButton)
+graphicButton = tk.Button(fxFrame,text="Gráficar", command=clickGraphButton)
 
-#----CheckBox
-fnConstante = tk.Checkbutton(fxFrame, text="Funcion Constante", variable=checkFnConstante)
-fnLineal = tk.Checkbutton(fxFrame, text="Funcion Lineal", variable=checkFnLineal)
-fnCuadratica = tk.Checkbutton(fxFrame, text="Funcion Cuadratica", variable=checkFnCuadratica)
-fnCubica = tk.Checkbutton(fxFrame, text="Funcion Cubica", variable=checkFnCubica)
-fnRacional = tk.Checkbutton(fxFrame, text="Funcion Racional", variable=checkFnRacional)
-fnExponencial= tk.Checkbutton(fxFrame, text="Funcion Exponencial", variable=checkFnExponencial)
-fnLogaritmica = tk.Checkbutton(fxFrame, text="Funcion Logaritmica", variable=checkFnLogaritmica)
-fnSeno = tk.Checkbutton(fxFrame, text="Funcion Seno", variable=checkFnSeno)
-fnCoseno = tk.Checkbutton(fxFrame, text="Funcion Coseno", variable=checkFnCoseno)
-fnTangente = tk.Checkbutton(fxFrame, text="Funcion Tangente", variable=checkFnTangente)
-#------------
-#----Labes
-
-#----Grids
-titleLabel.grid(row=0, column=0)
-fnConstante.grid(row=1, column=0, sticky='W')
-fnLineal.grid(row=2, column=0, sticky='W')
-fnCuadratica.grid(row=3, column=0, sticky='W')
-fnCubica.grid(row=4, column=0, sticky='W')
-fnRacional.grid(row=5, column=0, sticky='W')
-fnExponencial.grid(row=6, column=0, sticky='W')
-fnLogaritmica.grid(row=7, column=0, sticky='W')
-fnSeno.grid(row=8, column=0, sticky='W')
-fnCoseno.grid(row=9, column=0, sticky='W')
-fnTangente.grid(row=10, column=0, sticky='W')
-#------------
+funtionEntry.grid(row=0, column=0)
+fnTitleLabel.grid(row=1, column=0)
+fnListLabel.grid(row=2, column=0)
+addButton.grid(row=3, column=0)
+graphicButton.grid(row=4, column=0)
 #---------Graphic Frame
 grFrame = tk.Frame()
 image = tk.PhotoImage(file='seno.png')
-graphic = tk.Label(grFrame, image=image)
+graphic = tk.Canvas(grFrame, width=640, height=480, bg="black")
 
-graphic.grid(row=0, column=0, sticky='S')
+graphic.grid(row=0, column=0)
 #--------Frames
 fxFrame.grid(row=1, column=0)
 grFrame.grid(row=1, column=1)
+
+
 root.mainloop()
