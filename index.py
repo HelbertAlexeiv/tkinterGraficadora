@@ -19,6 +19,7 @@ checkFnTangente = tk.BooleanVar()
 fxFrame = tk.Frame(root)
 titleLabel = tk.Label(fxFrame,text="FUNCIONES", font=("Times New Roman", 13))
 
+#----CheckBox
 fnConstante = tk.Checkbutton(fxFrame, text="Funcion Constante", variable=checkFnConstante)
 fnLineal = tk.Checkbutton(fxFrame, text="Funcion Lineal", variable=checkFnLineal)
 fnCuadratica = tk.Checkbutton(fxFrame, text="Funcion Cuadratica", variable=checkFnCuadratica)
@@ -29,7 +30,10 @@ fnLogaritmica = tk.Checkbutton(fxFrame, text="Funcion Logaritmica", variable=che
 fnSeno = tk.Checkbutton(fxFrame, text="Funcion Seno", variable=checkFnSeno)
 fnCoseno = tk.Checkbutton(fxFrame, text="Funcion Coseno", variable=checkFnCoseno)
 fnTangente = tk.Checkbutton(fxFrame, text="Funcion Tangente", variable=checkFnTangente)
+#------------
+#----Labes
 
+#----Grids
 titleLabel.grid(row=0, column=0)
 fnConstante.grid(row=1, column=0, sticky='W')
 fnLineal.grid(row=2, column=0, sticky='W')
@@ -41,7 +45,7 @@ fnLogaritmica.grid(row=7, column=0, sticky='W')
 fnSeno.grid(row=8, column=0, sticky='W')
 fnCoseno.grid(row=9, column=0, sticky='W')
 fnTangente.grid(row=10, column=0, sticky='W')
-
+#------------
 #---------Graphic Frame
 grFrame = tk.Frame()
 image = tk.PhotoImage(file='seno.png')
