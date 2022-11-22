@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
@@ -8,11 +9,17 @@ root = tk.Tk()
 root.resizable(False, False)
 #--------Comands
 fnlist = list()
+def planeConf():
+    plt.xlim(-10, 10)
+    plt.ylim(-5, 10)
+    plt.axhline(y=0, color='k')
+    plt.axvline(x=0, color='k')
 
 def machineDiagram(fx, minX = -10.0, maxX = 10.0, ran = 20):
     x = np.linspace(minX, maxX)
     y = eval(fx)
     fn.plot(x, y)
+    planeConf()
     canvasFn.draw()
 
 
@@ -27,6 +34,7 @@ def clickAddButton():
 
 def clickEraseButton():
     plt.cla()
+    planeConf()
     canvasFn.draw()
     fnlist.clear()
     fnListLabel.config(text="")
@@ -38,12 +46,14 @@ def clickGraphButton():
         if "log" in f:
             base = f[f.index("g")+1:f.index("(")]
             arg = f[f.index("(")+1:len(f)-1]
-            machineDiagram(f"np.log({arg})/np.log({base})", minX=0.1)
+            machineDiagram(f"np.log({arg})/np.log({base})", minX=0.00001)
             
         else:
             machineDiagram(f)
 
-
+def clickSaveButton():
+    plt.savefig('gráfica.png')
+    messagebox.showinfo("Save", "Se ha guardado el esquema como gráfica.png")
 
 #--------Funtion Frame
 fxFrame = tk.Frame(root)
@@ -53,6 +63,7 @@ fnListLabel = tk.Label(fxFrame)
 addButton = tk.Button(fxFrame,text="Agregar", command=clickAddButton, width=7)
 eraseButton = tk.Button(fxFrame, text="Borrar", command=clickEraseButton, width=7)
 graphicButton = tk.Button(fxFrame,text="Gráficar", command=clickGraphButton, width=7)
+saveButton = tk.Button(fxFrame,text="Guardar", command=clickSaveButton, width=7)
 
 funtionEntry.grid(row=0, column=0)
 fnTitleLabel.grid(row=1, column=0)
@@ -60,11 +71,13 @@ fnListLabel.grid(row=2, column=0)
 addButton.grid(row=3, column=0)
 eraseButton.grid(row=4, column=0)
 graphicButton.grid(row=5, column=0)
+saveButton.grid(row=6, column=0)
 #---------Graphic Frame
 grFrame = tk.Frame()
 fig, fn = plt.subplots(dpi=100, figsize=(5, 5), sharey=True, facecolor="#FFFFFF")
 canvasFn = FigureCanvasTkAgg(fig, master=grFrame)
 canvasFn.get_tk_widget().grid(row=0, column=0)
+planeConf()
 canvasFn.draw()
 #--------Frames
 fxFrame.grid(row=1, column=0)
