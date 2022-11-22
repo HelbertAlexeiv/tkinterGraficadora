@@ -8,6 +8,14 @@ root = tk.Tk()
 root.resizable(False, False)
 #--------Comands
 fnlist = list()
+
+def machineDiagram(fx, minX = -10.0, maxX = 10.0, ran = 20):
+    x = np.linspace(minX, maxX)
+    y = eval(fx)
+    fn.plot(x, y)
+    canvasFn.draw()
+
+
 def clickAddButton():
     fnlist.append(funtionEntry.get())
     fnListLabel.config(text="")
@@ -25,11 +33,16 @@ def clickEraseButton():
 
 def clickGraphButton():
     plt.cla()
-    for i in fnlist:
-        x = np.linspace(-10, 10, 52)
-        y = eval(i)
-        fn.plot(x, y)
-        canvasFn.draw()
+    otherFn = False
+    for f in fnlist:
+        if "log" in f:
+            base = f[f.index("g")+1:f.index("(")]
+            arg = f[f.index("(")+1:len(f)-1]
+            machineDiagram(f"np.log({arg})/np.log({base})", minX=0.1)
+            
+        else:
+            machineDiagram(f)
+
 
 
 #--------Funtion Frame
