@@ -19,11 +19,18 @@ def planeConf():
     plt.axhline(y=0, color='k')
     plt.axvline(x=0, color='k')
 
-def machineDiagram(fx, minX = -10.0, maxX = 10.0, ran = 20, divisions = 50):
+def machineDiagram(fx, minX = -10.0, maxX = 10.0, ran = 20, divisions = 50, vertical=False):
     x = np.linspace(minX, maxX, divisions)
-    if isinstance(fx, list):
+    #Funcion constante
+    if isinstance(fx, list) and not vertical:
         y = fx
         fn.plot(x, y)
+        planeConf()
+        canvasFn.draw()
+    #Recta vertical
+    elif vertical:
+        y = fx
+        fn.plot(y, x)
         planeConf()
         canvasFn.draw()
     else:
@@ -43,15 +50,16 @@ def clickAddButton():
     fnListLabel.config(text=funtions)
 
 def clickEraseButton():
-    plt.cla()
-    planeConf()
-    canvasFn.draw()
-    fnlist.clear()
+    fnlist.pop()
     fnListLabel.config(text="")
+    funtions = ""
+    
+    for i in fnlist:
+        funtions += "\n➤ "+i+"\n"
+    fnListLabel.config(text=funtions)
 
 def clickGraphButton():
     plt.cla()
-    otherFn = False
     for f in fnlist:
         if "log" in f:
             base = f[f.index("g")+1:f.index("(")]
@@ -68,10 +76,16 @@ def clickGraphButton():
             machineDiagram(f"np.tan({arg})", minX=-10, maxX=10, divisions=1000)
         elif "x" in f:
             machineDiagram(f)
+        elif "y" in f:
+            rV = []
+            num = f[f.index("=")+1:]
+            for i in range(50):
+                rV.append(eval(num))
+            machineDiagram(rV, vertical=True)           
         else:
             fnConst = []
             for i in range(50):
-                fnConst.append(float(f))
+                fnConst.append(eval(f))
             machineDiagram(fnConst)
     fn.grid()
     canvasFn.draw()
